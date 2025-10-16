@@ -1,0 +1,12 @@
+services:
+  site:
+    image: python:3.11-slim
+    container_name: simple-tree-site
+    ports:
+      - "8081:8081"            # Flask écoutera sur 8081 dans le conteneur, publié sur l'hôte 8081
+    volumes:
+      - ./app:/app:delegated   # code de l'application
+      - "D:/HoneyPot:/shared:rw"  # dossier partagé (connections.txt sera écrit ici)
+    working_dir: /app
+    command: sh -lc "pip install --no-cache-dir -r /app/requirements.txt && python /app/app.py"
+    restart: unless-stopped
